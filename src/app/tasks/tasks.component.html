@@ -9,9 +9,15 @@
             <td>{{task.id}}</td>
             <td>{{task.titulo}}</td>
             <td>
-                <button class="btn btn-info">Detalhes</button>
-                <button class="btn btn-danger">Excluir</button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#taskDetail" (click)="onSelect(task)">
+                    Detalhes
+                </button>
+                <button class="btn btn-danger">
+                    Excluir
+                </button>
             </td>
         </tr>
     </tbody>
 </table>
+
+<task-detail [task]="selectedTask"></task-detail>
