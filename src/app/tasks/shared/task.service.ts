@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Task } from './task.model' 
+import { HttpModule } from '@angular/http'
 
 const TASKS: Array<Task> = [
     { id: 1, titulo: 'Fazer tarefa 1' },
@@ -13,7 +14,16 @@ const TASKS: Array<Task> = [
 @Injectable()
 
 export class TaskService {  
-    public getTasks(): Array<Task>{
-        return TASKS
+
+    public getTasks(): Promise<Task[]>{
+        return new Promise((resolve, reject)=>{
+            if(TASKS.length > 0){
+                resolve(TASKS)
+            } else{
+                let erro = "Não há tarefas"
+                reject(erro)
+            }
+        })
     }
+
 }
