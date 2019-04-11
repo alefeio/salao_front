@@ -1,10 +1,19 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { TasksComponent } from './tasks/tasks.component';
+import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+const ROUTES = RouterModule.forRoot([
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'tasks', component: TasksComponent },
+  { path: 'tasks/:id', component: TaskDetailComponent },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+])
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [ROUTES],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
