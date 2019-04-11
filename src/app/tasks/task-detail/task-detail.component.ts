@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common'
 
 import { switchMap } from 'rxjs/operators';
 
 import { Task } from '../shared/task.model'
-import { ActivatedRoute, Params } from '@angular/router';
 import { TaskService } from '../shared/task.service';
 
 @Component({
@@ -12,11 +13,12 @@ import { TaskService } from '../shared/task.service';
 })
 
 export class TaskDetailComponent implements OnInit {
-    @Input() public task: Task
+    public task: Task
 
     public constructor(
         private route: ActivatedRoute,
-        private taskService: TaskService
+        private taskService: TaskService,
+        private location: Location
     ){ }
 
     public ngOnInit() {
@@ -26,6 +28,10 @@ export class TaskDetailComponent implements OnInit {
                 this.task = task
                 console.log(this.task)
             })
+    }
+
+    public goBack() {
+        this.location.back()
     }
 
 }

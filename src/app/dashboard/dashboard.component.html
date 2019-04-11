@@ -1,10 +1,16 @@
+<h1 class="page-header">Dashboard </h1>
+
 <table class="table">
     <thead>
-        <th>Tarefa</th>
+        <tr> 
+            <th>Tarefa</th>
+            <th>Ações</th>
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor="let task of tasks">
             <td>{{task.titulo}}</td>
+            <td><button class="btn btn-info" [routerLink]="['/tasks', task.id]">Detalhes</button></td>
         </tr>
     </tbody>
 </table>
