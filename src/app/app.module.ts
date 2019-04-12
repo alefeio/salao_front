@@ -13,11 +13,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 // Services imports 
 import { TaskService } from './tasks/shared/task.service';
-import { InMemoryTaskDataService } from './in-memory-task-data.service';
 
 // modules imports
 import { AppRoutingModule } from './app-routing.module'
+
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryTaskDataService } from './in-memory-task-data.service';
 
 @NgModule({
   declarations: [
