@@ -48,13 +48,36 @@ export class TaskService {
         }
     }
 
-    public updateTask(task: Task): Observable<Task> {
-        let url = `${this.tasksUrl}/${task.id}`
-        let body = JSON.stringify(task)
-        let headers = new Headers({ 'Content-type': 'application/json' })
+    public createTask(task: Task): Observable<Task> {
         try {
+            let url = this.tasksUrl
+            let body = JSON.stringify(task)
+            let headers = new Headers({ 'Content-type': 'applcation/json' })
+            return this.http.post(url, body, { headers: headers })
+                .pipe(map(response => response.json() as Task))
+        } catch (error) {
+            this.handleErrors(error)
+        }
+    }
+
+    public updateTask(task: Task): Observable<Task> {
+        try {
+            let url = `${this.tasksUrl}/${task.id}`
+            let body = JSON.stringify(task)
+            let headers = new Headers({ 'Content-type': 'application/json' })
             return this.http.put(url, body, { headers: headers })
                 .pipe(map(() => task))
+        } catch (error) {
+            this.handleErrors(error)
+        }
+    }
+
+    public deleteTask(id: number): Observable<null> {
+        try {
+            let url = `${this.tasksUrl}/${id}`
+            let headers = new Headers({ 'Content-type': 'application/json' })
+            return this.http.delete(url, { headers: headers })
+                .pipe(map(() => null))
         } catch (error) {
             this.handleErrors(error)
         }
