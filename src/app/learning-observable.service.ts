@@ -45,7 +45,7 @@ export class LearningObservable {
                 //         }
                 //     )
                 
-                this.http.get("api/taasdsdsks")
+                this.http.get("api/tasks")
                 .subscribe({
                     next: newData => console.log('Chamou o método next e passou o parâmetro newData: ', newData),
                     error: errorData => alert('Ocorreu um erro no servidor. Tente mais tarde.'),

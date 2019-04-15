@@ -2,6 +2,8 @@ import { Http } from '@angular/http'
 import { Injectable } from '@angular/core'
 
 import { Task } from './task.model' 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const TASKS: Array<Task> = [
     { id: 1, titulo: 'Fazer tarefa 1' },
@@ -15,27 +17,28 @@ const TASKS: Array<Task> = [
 
 export class TaskService {  
 
+    public tasksUrl = 'api/tasks'
+
     public constructor(private http: Http) {}
 
-    public getTasks(): Promise<Task[]>{
-
-        return new Promise((resolve, reject)=>{
-            if(TASKS.length > 0){
-                 resolve(TASKS)
-            } else{
-                let erro = "Não há tarefas"
-                reject(erro)
-            }
-        })
+    public getTasks(): Observable<Task[]>{
+        return this.http.get(this.tasksUrl) 
+            .pipe(map(response => {
+                // console.log('getTastks => ', response.json())
+                return response.json() as Task[]
+            }))
     }
 
-    public getImportantTasks(): Promise<Task[]>{
-        return Promise.resolve(TASKS.slice(0, 3))
-    }
-
-    public getTask(id: number): Promise<Task>{
+    public getImportantTasks(): Observable<Task[]>{
         return this.getTasks()
-            .then(tasks => tasks.find(task => task.id === id))
+            .pipe(map(tasks => tasks.slice(0,3)))
+    }
+
+    public getTask(id: number): Observable<Task>{
+        let url = `${this.tasksUrl}/${id}`
+
+        return this.http.get(url)
+            .pipe(map(response => response.json() as Task))
     }
 
 }
