@@ -24,14 +24,26 @@ export class TaskDetailComponent implements OnInit {
     public ngOnInit() {
         this.route.params
             .pipe(switchMap((params: Params) => this.taskService.getTask(+params['id'])))
-            .subscribe(task => {
-                this.task = task
-                console.log(this.task)
-            })
+                .subscribe(
+                    task => this.task = task,
+                    () => alert('Ocorreu um erro no servidor. Tente mais tarde!')
+                )
     }
 
     public goBack() {
         this.location.back()
+    }
+
+    public updateTask(){
+        if(!this.task.titulo){
+            alert('A tarefa deve ter um título.')
+        } else {
+            this.taskService.updateTask(this.task)
+                .subscribe(
+                    () => alert('Tafera atualizada com sucesso!'),
+                    () => alert('Ocorreu um erro no servidor. Tente mais tarde!')
+                )
+        }
     }
 
 }
