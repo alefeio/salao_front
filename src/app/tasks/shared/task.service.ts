@@ -10,10 +10,11 @@ import { map } from 'rxjs/operators';
 export class TaskService {
 
     public tasksUrl = 'api/tasks'
+    public headers = new Headers({ 'Content-type': 'application/json' })
 
     public constructor(private http: Http) { }
 
-    public getTasks(): Observable<Task[]> {
+    public getAll(): Observable<Task[]> {
         try {
             return this.http.get(this.tasksUrl)
                 .pipe(
@@ -28,19 +29,18 @@ export class TaskService {
         }
     }
 
-    public getImportantTasks(): Observable<Task[]> {
+    public getImportant(): Observable<Task[]> {
         try {
-            return this.getTasks()
+            return this.getAll()
                 .pipe(map(tasks => tasks.slice(0, 3)))
         } catch (error) {
             this.handleErrors(error)
         }
     }
 
-    public getTask(id: number): Observable<Task> {
+    public getById(id: number): Observable<Task> {
         try {
             let url = `${this.tasksUrl}/${id}`
-
             return this.http.get(url)
                 .pipe(map(response => response.json() as Task))
         } catch (error) {
@@ -48,36 +48,44 @@ export class TaskService {
         }
     }
 
-    public createTask(task: Task): Observable<Task> {
+    public create(task: Task): Observable<Task> {
         try {
             let url = this.tasksUrl
             let body = JSON.stringify(task)
-            let headers = new Headers({ 'Content-type': 'applcation/json' })
-            return this.http.post(url, body, { headers: headers })
+            return this.http.post(url, body, { headers: this.headers })
                 .pipe(map(response => response.json() as Task))
         } catch (error) {
             this.handleErrors(error)
         }
     }
 
-    public updateTask(task: Task): Observable<Task> {
+    public update(task: Task): Observable<Task> {
         try {
             let url = `${this.tasksUrl}/${task.id}`
             let body = JSON.stringify(task)
-            let headers = new Headers({ 'Content-type': 'application/json' })
-            return this.http.put(url, body, { headers: headers })
+            return this.http.put(url, body, { headers: this.headers })
                 .pipe(map(() => task))
         } catch (error) {
             this.handleErrors(error)
         }
     }
 
-    public deleteTask(id: number): Observable<null> {
+    public delete(id: number): Observable<null> {
         try {
             let url = `${this.tasksUrl}/${id}`
-            let headers = new Headers({ 'Content-type': 'application/json' })
-            return this.http.delete(url, { headers: headers })
+            return this.http.delete(url, { headers: this.headers })
                 .pipe(map(() => null))
+        } catch (error) {
+            this.handleErrors(error)
+        }
+    }
+
+    public searchByTitle(termo: string): Observable<Task[]> {
+        try {
+            let url = `${this.tasksUrl}?titulo=${termo}`
+    
+            return this.http.get(url)
+                .pipe(map((response) => response.json() as Task[]))
         } catch (error) {
             this.handleErrors(error)
         }

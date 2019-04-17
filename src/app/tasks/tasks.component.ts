@@ -17,7 +17,7 @@ export class TasksComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.taskService.getTasks()
+        this.taskService.getAll()
             .subscribe(
                 tasks => {
                     this.tasks = tasks
@@ -33,7 +33,7 @@ export class TasksComponent implements OnInit {
         if(!this.newTask.titulo){
             alert('A tarefa deve ter um título.')
         } else {
-            this.taskService.createTask(this.newTask)
+            this.taskService.create(this.newTask)
                 .subscribe(
                     (task) => {
                         this.tasks.push(task)
@@ -46,7 +46,7 @@ export class TasksComponent implements OnInit {
 
     public deleteTask(task: Task){
         if(confirm(`Deseja excluir a tarefa ${task.titulo}?`)){
-            this.taskService.deleteTask(task.id)
+            this.taskService.delete(task.id)
                 .subscribe(
                     () => this.tasks = this.tasks.filter(t => t !== task),
                     () => alert('Ocorreu um erro no servidor, Tente mais tarde!')

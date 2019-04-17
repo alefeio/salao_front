@@ -1,0 +1,6 @@
+<div style="position:relative">
+    <input #searchInput (keyup)="search(searchInput.value)" class="form-control mr-sm-2" type="text" placeholder="Buscar tarefas" aria-label="Buscar tarefas">
+    <ul *ngIf="tasks" class="list-group" style="position: absolute; width: 100%; z-index: 100;">
+        <li href="" class="list-group-item" *ngFor="let task of tasks"><a (click)="gotoTask(task)">{{task.titulo}}</a></li>
+    </ul>
+</div>
