@@ -1,9 +1,11 @@
 export class Task {
-    public id: number
-    public titulo: string
   
-    constructor(id: number, titulo: string){
-      this.id = id
-      this.titulo = titulo
+    constructor(
+      public id: number, 
+      public titulo: string,
+      public descricao?: string,
+      public status?: boolean,
+      public data?: string
+    ){
     }
   }
