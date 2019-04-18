@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { Task } from '../shared/task.model'
 import { TaskService } from '../shared/task.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'task-detail',
@@ -13,6 +14,8 @@ import { TaskService } from '../shared/task.service';
 })
 
 export class TaskDetailComponent implements OnInit {
+
+    public taskForm: FormGroup;
     public task: Task
 
     public taskStatusOptions: Array<any> = [
@@ -22,17 +25,39 @@ export class TaskDetailComponent implements OnInit {
 
     public constructor(
         private route: ActivatedRoute,
-        private taskService: TaskService,
-        private location: Location
-    ){ }
+        private taskService: TaskService, 
+        private location: Location,
+        private fb: FormBuilder
+    ){
+        this.taskForm = this.fb.group({
+            titulo: [null, Validators.required],
+            data: [null],
+            situacao: [null],
+            descricao: [null]
+        })
+    }
 
     public ngOnInit() {
+        this.task = new Task(null, null)
+
         this.route.params
             .pipe(switchMap((params: Params) => this.taskService.getById(+params['id'])))
                 .subscribe(
-                    task => this.task = task,
+                    task => this.setTask(task),
                     () => alert('Ocorreu um erro no servidor. Tente mais tarde!')
                 )
+    }
+
+    public setTask(task: Task): void {
+        this.task = task
+        this.taskForm.patchValue(task)
+    }
+
+    public ngAfterViewInit(){
+        $('#data').datetimepicker({
+            'sideBySide': true,
+            'locale': 'pt-br'
+        }).on('dp.change', ()=> this.taskForm.get('data').setValue($("#data").val()))
     }
 
     public goBack() {

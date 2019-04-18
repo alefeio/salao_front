@@ -1,18 +1,18 @@
-<h1 class="page-header">Detalhes da Tarefa: {{task?.titulo}} </h1>
+<h1 class="page-header">Detalhes da Tarefa: {{task.titulo}} </h1>
 
-<form #taskForm="ngForm" *ngIf="task">
+<form [formGroup]="taskForm" ngSumit="updateTask()">
     <div class="row">
         <div class="form-group col-md-6">
             <label for="titulo" class="control-label">Título</label>
-            <input type="text" class="form-control" [(ngModel)]="task.titulo" name="titulo" id="titulo" required>
+            <input formControlName="titulo" type="text" class="form-control" id="titulo" required>
         </div>
         <div class="form-group col-md-3 ">
             <label for="data" class="control-label">Data</label>
-            <input type="date" class="form-control" [(ngModel)]="task.data" name="data" id="data">
+            <input formControlName="data" type="text" class="form-control" id="data">
         </div>
         <div class="form-group col-md-3 ">
             <label for="status" class="control-label">Situação</label>
-            <select class="form-control" [(ngModel)]="task.status" name="status" id="status">
+            <select formControlName="situacao" class="form-control" id="status">
                 <option *ngFor="let option of taskStatusOptions" [value]="option.value">{{option.text}}</option>
             </select>
         </div>
@@ -20,12 +20,12 @@
     <div class="row">
         <div class="form-group col-md-12">
             <label for="descricao" class="control-label">Descrição</label>
-            <textarea class="form-control" [(ngModel)]="task.descricao" name="descricao" id="descricao" rows="4"></textarea>
+            <textarea formControlName="descricao" class="form-control" id="descricao" rows="4"></textarea>
         </div>
     </div>
 
     <button (click)="goBack()" class="btn btn-default">Voltar</button>
-    <button type="submit" class="btn btn-success" (click)="updateTask()">Atualizar</button>
+    <button type="submit" class="btn btn-success">Atualizar</button>
 </form>
 
 <br>

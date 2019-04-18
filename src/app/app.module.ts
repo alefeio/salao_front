@@ -1,7 +1,7 @@
 // Angular imports
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
  
 // Components imports
@@ -21,6 +21,9 @@ import { AppRoutingModule } from './app-routing.module'
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryTaskDataService } from './in-memory-task-data.service';
 
+import * as $ from 'jquery'
+import * as datetimepicker from 'eonasdan-bootstrap-datetimepicker'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +36,7 @@ import { InMemoryTaskDataService } from './in-memory-task-data.service';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AppRoutingModule,
     InMemoryWebApiModule.forRoot(InMemoryTaskDataService)
