@@ -18,10 +18,7 @@ export class TaskDetailComponent implements OnInit {
     public taskForm: FormGroup;
     public task: Task
 
-    public taskStatusOptions: Array<any> = [
-        { value: false, text: 'Pendente' },
-        { value: true, text: 'Concluído' }
-    ]
+    public taskStatusOptions: Array<any>
 
     public constructor(
         private route: ActivatedRoute,
@@ -29,10 +26,15 @@ export class TaskDetailComponent implements OnInit {
         private location: Location,
         private fb: FormBuilder
     ){
+        this.taskStatusOptions = [
+            { value: false, text: 'Pendente' },
+            { value: true, text: 'Concluído' }
+        ]
+
         this.taskForm = this.fb.group({
             titulo: [null, Validators.required],
-            data: [null],
-            situacao: [null],
+            data: [null, Validators.required],
+            status: [null, Validators.required],
             descricao: [null]
         })
     }
@@ -65,6 +67,11 @@ export class TaskDetailComponent implements OnInit {
     }
 
     public updateTask(){
+        this.task.titulo = this.taskForm.get('titulo').value
+        this.task.data = this.taskForm.get('data').value
+        this.task.status = this.taskForm.get('status').value
+        this.task.descricao = this.taskForm.get('descricao').value
+
         if(!this.task.titulo){
             alert('A tarefa deve ter um título.')
         } else {
@@ -74,6 +81,30 @@ export class TaskDetailComponent implements OnInit {
                     () => alert('Ocorreu um erro no servidor. Tente mais tarde!')
                 )
         }
+    }
+
+    // tratamento de erros
+
+    public fieldClassForErrorOrSuccess(fieldName: string){
+        return {
+            "text-danger": this.showFieldError(fieldName),
+            "text-success": this.getField(fieldName).valid
+        }
+    }
+
+    public iconClassForErrorOrSuccess(fieldName: string){
+        return {
+            "fa fa-times": this.showFieldError(fieldName),
+            "fa fa-check": this.getField(fieldName).valid
+        }
+    }
+
+    public showFieldError(field): boolean {
+        return field.invalid && (field.touched || field.dirty)
+    }
+
+    public getField(fieldName: string){
+        return this.taskForm.get(fieldName)
     }
 
 }
