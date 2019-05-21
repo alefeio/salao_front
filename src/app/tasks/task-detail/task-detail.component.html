@@ -1,31 +1,31 @@
 <h1 class="page-header">Detalhes da Tarefa: {{task.titulo}} </h1>
 
-<form [formGroup]="taskForm" (ngSubmit)="updateTask()">
+<form [formGroup]="form" (ngSubmit)="updateTask()">
     <div class="row">
-        <div class="form-group col-md-6" [ngClass]="fieldClassForErrorOrSuccess('titulo')">
+        <div class="form-group col-md-6" [ngClass]="formUtils.fieldClassForErrorOrSuccess('titulo')">
             <label for="titulo" class="control-label">Título</label>
             <input formControlName="titulo" type="text" class="form-control" id="titulo">
 
-            <div *ngIf="showFieldError(getField('titulo'))" class="text-danger">
-                <div *ngIf="getField('titulo').errors.required">Campo obrigatório</div>
+            <div *ngIf="formUtils.showFieldError(form.get('titulo'))" class="text-danger">
+                <div *ngIf="form.get('titulo').errors.required">Campo obrigatório</div>
             </div>
         </div>
-        <div class="form-group col-md-3" [ngClass]="fieldClassForErrorOrSuccess('data')">
+        <div class="form-group col-md-3" [ngClass]="formUtils.fieldClassForErrorOrSuccess('data')">
             <label for="data" class="control-label">Data</label>
             <input formControlName="data" type="text" class="form-control" id="data">
 
-            <div *ngIf="showFieldError(getField('data'))" class="text-danger">
-                <div *ngIf="getField('data').errors.required">Campo obrigatório</div>
+            <div *ngIf="formUtils.showFieldError(form.get('data'))" class="text-danger">
+                <div *ngIf="form.get('data').errors.required">Campo obrigatório</div>
             </div>
         </div>
-        <div class="form-group col-md-3" [ngClass]="fieldClassForErrorOrSuccess('status')">
+        <div class="form-group col-md-3" [ngClass]="formUtils.fieldClassForErrorOrSuccess('status')">
             <label for="status" class="control-label">Status</label>
             <select formControlName="status" class="form-control" id="status">
                 <option *ngFor="let option of taskStatusOptions" [value]="option.value">{{option.text}}</option>
             </select>
 
-            <div *ngIf="showFieldError(getField('status'))" class="text-danger">
-                <div *ngIf="getField('status').errors.required">Campo obrigatório</div>
+            <div *ngIf="formUtils.showFieldError(form.get('status'))" class="text-danger">
+                <div *ngIf="form.get('status').errors.required">Campo obrigatório</div>
             </div>
         </div>
     </div>
@@ -37,8 +37,8 @@
     </div>
 
     <button type="button" (click)="goBack()" class="btn btn-default">Voltar</button>
-    <button type="submit" class="btn btn-success" [disabled]="taskForm.invalid">Atualizar</button>
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Atualizar</button>
 </form>
 
 <br>
-<pre>{{taskForm.value | json}}</pre>
+<pre>{{form.value | json}}</pre>

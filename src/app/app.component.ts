@@ -1,14 +1,17 @@
+import { Angular2TokenService } from 'angular2-token';
 import { Component } from '@angular/core';
-import { LearningObservable } from './learning-observable.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [ LearningObservable ]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public constructor(private learningObservable: LearningObservable) {}
+  title = 'Projeto Teste'
 
-  title = 'salao-angular 2'
+  public constructor(private tokenService: Angular2TokenService) {
+    this.tokenService.init({
+      apiBase: 'http://misslaura.herokuapp.com'
+    })
+  }
 }
